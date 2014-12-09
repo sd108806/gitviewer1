@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+
+  <meta id="viewport" name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+<!--
+********************************************************************************
+-->
+  <meta http-equiv="Access-Control-Allow-Origin" content="bitbucket.org" />
+<!--
+********************************************************************************
+-->
+  <title>GitViewer</title>
+<!--
+********************************************************************************
+style sheet
+-->
+  <link rel="stylesheet" type="text/css" href="css/jquery.mobile-1.4.4.css" />
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+<!--
+********************************************************************************
+data related modules
+-->
+  <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+  <script type="text/javascript" src="js/jquery.mobile-1.4.4-sai_dong.js"></script>
+  <script type="text/javascript" src="js/crypto-js-core.js"></script>
+  <script type="text/javascript" src="js/enc-base64.js"></script>
+  <script type="text/javascript" src="js/hmac-sha1-sai_dong.js"></script>
+  <script type="text/javascript" src="js/oauth-1.0a.js"></script>
+  <script type="text/javascript" src="js/sfetch.js"></script>
+  <script type="text/javascript" src="js/repodata.js"></script>
+  <script type="text/javascript" src="js/dummy.js"></script>
+  <script type="text/javascript" src="js/datefilter.js"></script>
+<!--
+********************************************************************************
+datepicker widget
+-->
+  <link rel="stylesheet" type="text/css" href="css/jquery.mobile.datepicker.css" />
+  <link rel="stylesheet" type="text/css" href="css/jquery.mobile.datepicker.theme.css" />
+  <script type="text/javascript" src="js/external.jquery-ui.datepicker.js"></script>
+  <script type="text/javascript" src="js/jquery.mobile.datepicker.js"></script>
+<!--
+********************************************************************************
+unit testing
+-->
+  <!-- link rel="stylesheet" type="text/css" href="css/qunit-1.15.0.css" / -->
+</head>
+
+
+<body>
+<!--
+********************************************************************************
+UI elements (jQuery.mobile compatible)
+-->
+<div class="" id="welcomePage" data-role="page">
+  <div class="" data-role="header">
+  </div>
+  <div class="" data-role="content">
+    <center>
+    <h2>Welcome to GitViewer</h2>
+    <p><img src="img/logo.png" /></p>
+    <p><i>Presented by: <b>SnippetsJam</b></i></p>
+
+    <!-- div id="qunit"></div><div id="qunit-fixture"></div -->
+
+    <fieldset class="ui-grid-b">
+      <div class="ui-block-a"></div>
+      <div class="ui-block-b"><a href="#ViewerPage" id="enterButton" class="ui-btn" data-role="button" data-icon="gear">Enter</a></div>
+      <div class="ui-block-c"></div>
+    </fieldset>
+
+    </center>
+  </div>
+</div>
+
+
+
+<div class="" id="AboutPage" data-role="page" data-add-back-btn="true">
+  <div class="" data-role="header">
+    <a href="#ViewPage" id="viewButton" class="ui-btn-left" data-rel="back" data-icon="check">Back</a>
+    <h2>About GitViewer</h2>
+  </div>
+  <div class="" data-role="content">
+    <center>
+    <p><img src="img/logo.png" /></p>
+    <p><h3>GitViewer</h3></p>
+    <p><i>Presented to you by: <b>SnippetsJam</b></i></p>
+    <p>Developers: Liang Chen, Sai Dong, Sam Merten</p>
+    <p>App logo is designed by Liang Chen.</p>
+    </center>
+    <div id="help-usage" data-role="collapsible">
+      <h4>License Information</h4>
+      <p>This App <b>GitViewer</b> is under Apache License.</p>
+      <p>This App is built with JQuery, JQuery Mobile, D3.js, and PhoneGap (Cordova).</p>
+    </div>
+    <!------>
+    <div id="help-tutorial" data-role="collapsible">
+      <h4>Tutorial</h4>
+      <p><b>How to get your consumer key and secret from BitBucket.org</b></p>
+      <!------>
+      <p>This tutorial shows the step-by-step guide of acquiring a consumer key and secret for BitBucket. After the following steps, you will be able to view your private BitBucket repositories.</p>
+      <ol>
+        <li>Log into your BitBucket account, and navigate to the "Dashboard" page.</li>
+        <li>At the upper right hand corner of the "Dashboard" page, click on your account icon, and then click "Manage account" from the drop-down menu.</li>
+        <p><img src="img/dashboard.png" alt="'Manage account' in the drop-down menu of the user account icon."><br />
+          <i>Figure: "Manage account" in the drop-down menu of the user account icon.</i></p>
+        <li>On the Account Management page, select "OAuth" link in the left side column.</li>
+        <p><img src="img/oauth_link.png" alt="'OAuth' link on the Account Management page."><br />
+          <i>Figure: "OAuth" link on the Account Management page.</i></p>
+        <li>On the OAuth page, click the "Add consumer" button.</li>
+        <p><img src="img/oauth.png" alt="'Add consumer' button on the OAuth page."><br />
+          <i>Figure: "Add consumer" button on the OAuth page.</i></p>
+        <li>Enter a meaningful name and description which will allow you to easily identify this application. And click "Save" button.</li>
+        <p><img src="img/oauth_info.png" alt="OAuth consumer description dialog."><br />
+          <i>Figure: OAuth consumer description dialog.</i></p>
+        <li>BitBucket will then provide you with your own consumer key/secret pair.</li>
+        <p><img src="img/oauth_done.png" alt="Generated consumer key and secret."><br />
+          <i>Figure: Generated consumer key and secret.</i></p>
+        <li>Enter your key/secret pair under the Authentication section of the Preferences Page, and remember to have "Update authentication data" checked before you click "Save" button.</li>
+        <p><img src="img/oaupdate.png" alt="Authentication section of the Preferences Page."><br />
+          <i>Figure: Authentication section of the Preferences Page.</i></p>
+        <li>Now you can view your own repositories in the GitViewer.</li>
+      </ol>
+    <!------>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="" id="ViewerPage" data-role="page">
+  <div class="ui-bar" data-role="header" data-position="fixed" style="height: 40px;">
+    <div class="ui-btn-left" data-role="controlgroup" data-type="horizontal">
+      <!-- menu::preference.about -->
+      <a href="#Menu" class="hbtn" data-rel="popup" data-role="button" data-icon="bars" >Menu&nbsp;&nbsp;</a>
+      <div data-role="popup" id="Menu" data-theme="none">
+        <ul data-role="listview" data-inset="true">
+          <li data-icon="gear"><a href="#ConfigPage">Preferences</a></li>
+          <li data-role="list-divider"></li>
+          <li data-icon="star"><a href="#AboutPage" data-rel="page">About</a></li>
+        </ul>
+      </div>
+      <!-- menu::histogram.tree -->
+      <select class="hbtn" tabindex="0" name="viewType" id="viewType" data-native-menu="false">
+        <option id="hview" value="hist" selected="selected">Histogram</option>
+        <option id="bview" value="tree">Branch</option>
+      </select>
+      <!-- message -->
+      <div class="hmsg" id="hdrmsg">Repository</div>
+    </div>
+  </div>
+  <div class="" data-role="content">
+    <div class="" id="msgpanel" style="width: 100% ; height: 50px ;"></div>
+    <div id="mychart"></div>
+    <div class="ui-content" id="filelist" data-role="popup" style="overflow-y: scroll;"></div>
+  </div>
+</div>
+
+
+
+<div class="" id="ConfigPage" data-role="page" data-transition="popup">
+  <div class="" data-role="header">
+    <a href="#ViewerPage" id="backButton" class="ui-btn-left" data-role="button" data-rel="back" data-icon="delete">Back</a>
+    <h2>Preferences</h2>
+  </div>
+  <div class="" data-role="content">
+    <div id="cfg-repo" data-role="collapsible">
+      <h4>Repository</h4>
+      <div>repository URI: <i>(currently only bibbucket.org is supported.)</i> <input type="text" name="repo_url" id="repo_url" size="36" value="bitbucket.org/liuc/capstone.f14.gitviewer" /></div>
+      <div><button type="submit" id="getRepo" name="getRepo" data-icon="check">Get</button></div>
+      <!------>
+      <div><label><input type="checkbox" name="add_repo" id="add_repo" value="add_repo" />Add successfully loaded repository to QuickList automatically.</label></div>
+      <div>QuickList: <select name="quicklist" id="quicklist" data-native-menu="false">
+        <option id="ql00" value="bitbucket.org/liuc/capstone.f14.gitviewer">bitbucket.org/liuc/cs456</option>
+        <option id="ql01" value="bitbucket.org/liuc/cs456">bitbucket.org/liuc/capstone.f14.gitviewer</option>
+        <option id="ql02" value="bitbucket.org/sdorra/scm-manager">bitbucket.org/sdorra/scm-manager</option>
+        <option id="ql03" value="bitbucket.org/lazka/quodlibet">bitbucket.org/lazka/quodlibet</option>
+        <option id="ql04" value="bitbucket.org/shuerhaaken/libtaginfo">bitbucket.org/shuerhaaken/libtaginfo</option>
+        <option id="ql05" value="bitbucket.org/shuerhaaken/xnoise">bitbucket.org/shuerhaaken/xnoise</option>
+      </select></div>
+      <div><button type="submit" name="useList" id="useList" data-icon="action">Use</button></div>
+    </div>
+    <div id="cfg-filter" data-role="collapsible">
+         <h4>Filter</h4>
+         <div><label><input type="checkbox" name="filtering" id="filtering" value="enable_filter" />Enable filtering</label></div>
+         <div><button type="submit" name="applyFilter" id="applyFilter" data-icon="refresh" data-rel="back">Apply Filter</button></div>
+         <div>Author: <input type="text" name="filter_author" id="filter_author" value="" /></div>
+         <div>File Type: <select tabindex="0" name="filter_type" id="filter_type" data-native-menu="false">
+             <option value="added" selected="selected">Add</option>
+             <option value="removed">Delete</option>
+             <option value="modified">Modify</option>
+         </select></div>
+         <div>File Count: <input type="text" name="type_count" id="filter_count" value="3" /></div>
+         <div>File Name: <input type="text" name="type_fname" id="filter_fname" value="*" /></div>
+         <div>Start Date: <input type="text" class="date-input" data-role="date" name="filter_date_start" id="filter_date_start" value="" /></div>
+         <div>End Date: <input type="text" class="date-input" data-role="date" name="filter_date_end" id="filter_date_end" value="" /></div>
+    </div>
+    <div id="cfg-auth" data-role="collapsible">
+         <h4>Authentication</h4>
+         <div>User's Consumer Key: <input type="text" name="username" id="username" value="fake consumer key" /></div>
+         <div>Consumer Secret: <input type="password" name="userpass" id="userpass" value="fake consumer secret" /></div>
+         <div><label><i>Your key will not show up here once you restart this App.</i></label></div>
+         <div><label><input type="checkbox" name="reset_auth" id="reset_auth" value="reset_auth_ok" />Update authentication data</label></div>
+         <div><button type="submit" id="updateAuth" name="updateAuth" data-icon="lock">Save</button></div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<!--
+********************************************************************************
+phonegap/cordova module
+-->
+  <script type="text/javascript" src="cordova.js"></script>
+<!--
+********************************************************************************
+UI supporting modules
+-->
+  <script type="text/javascript" src="js/d3.js"></script>
+  <script type="text/javascript" src="js/sankey.js"></script>
+<!--
+********************************************************************************
+App startup code
+-->
+<script type="text/javascript" src="js/appmain.js"></script>
+
+<script type="text/javascript">
+var viewportScale = 1 / window.devicePixelRatio;
+$("#viewport").attr("content","user-scalable=no, initial-scale="+viewportScale+", minimum-scale=0.2, maximum-scale=2, width=device-width");
+</script>
+<!--
+********************************************************************************
+unit test code
+-->
+  <!-- script type="text/javascript" src="js/qunit-1.15.0.js"></script -->
+  <!-- script type="text/javascript" src="js/utest.js"></script -->
+<!--
+********************************************************************************
+-->
+</body>
+</html>

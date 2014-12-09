@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="msapplication-tap-highlight" content="no" />
+
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+  <link rel="stylesheet" type="text/css" href="css/index.css" />
+
+  <title>GitViewer</title>
+<!--
+********************************************************************************
+-->
+
+  <meta http-equiv="Access-Control-Allow-Origin" content="bitbucket.org" />
+<!--
+********************************************************************************
+-->
+</head>
+
+<body>
+<!--
+********************************************************************************
+phonegap/cordova module
+-->
+  <script type="text/javascript" src="cordova.js"></script>
+<!--
+********************************************************************************
+basic UI functions
+-->
+  <script type="text/javascript" src="js/d3.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+  <script type="text/javascript" src="js/uicontrol.js"></script>
+
+<!--
+********************************************************************************
+data retrievel module
+-->
+  <script type="text/javascript" src="js/jquery-1.11.1.js"></script>
+  <script type="text/javascript" src="js/jquery.mobile-1.4.4-sai_dong.js"></script>
+  <script type="text/javascript" src="js/oauth-1.0a.js"></script>
+  <script type="text/javascript" src="js/repodata.js"></script>
+
+<!--
+********************************************************************************
+UI elements
+-->
+
+<center>
+
+  <div id="mainframe" style="display:block;">
+
+    <div id="Welcome" style="display:none;">
+      <p align="center"><font size="10">Welcome to GitViewer</font></p>
+      <div class="separator"></div>
+      <div align="center"><img src="img/logo.png" /></div>
+      <div class="separator"></div>
+      <p align="center">Presented by <b>SnippetsJam</b></p>
+      <div class="separator"></div>
+      <p align="center"><!-- div class="button" onclick="GVapp.show_view();">Enter</div -->
+        <input type="button" value="Enter" onclick="GVapp.show_view();" />
+      </p>
+    </div>
+
+    <div id="About" style="display:none;">
+      <div align="center"><img src="img/logo.png" /></div>
+      <div class="separator"></div>
+      <p align="center"><font size="12">GitViewer</font></p>
+      <div class="separator"></div>
+      <p align="center">Developed by <b>SnippetsJam</b>: <i>Liang Chen, Sai Dong, Sam Merten</i>.</p>
+      <p align="center">The app logo is designed by <i>Liang Chen.</i></p>
+      <p align="center">The spinning animation is provided by <a href="http://www.mytreedb.com">MyTreeDB.com</a></p>
+      <div class="separator"></div>
+      <!-- p align="center"><div class="button" onclick="GVapp.show_view();">OKey</div></p -->
+      <p align="center"><input type="button" onclick="GVapp.show_view();" value="OKey" /></p>
+    </div>
+
+    <div id="Prefs" style="display:none;">
+      <p align="center"><font size="10">Preferences</font></p>
+      <p>
+        <div>Maximum Commits: <input type="text" id="commit_count" name="commit_count" value="50" /></div>
+        <div>Color scheme: <input type="color" id="favcolor" name="favcolor" value="#ff0000" /></div>
+      </p>
+      <div class="separator"></div>
+      <div class="separator"></div>
+      <p align="center">
+        <input type="button" onclick="GVapp.update_pref();" value="Apply" />
+        <input type="button" onclick="GVapp.pref_reset();" value="Default" />
+        <input type="button" onclick="GVapp.pref_no_change();" value="Cancel" />
+      </p>
+      <!-- p align="center">
+        <div class="button" onclick="GVapp.update_pref();">Apply</div>
+        <div class="button" onclick="GVapp.pref_reset();">Default</div>
+        <div class="button" onclick="GVapp.pref_no_change();">Cancel</div>
+      </p -->
+    </div>
+
+    <div id="repoURI" style="display:none;">
+      <p align="center"><font size="10">Repository</font></p>
+      <div>repository URI: <input type="text" name="repo_url" id="repo_url" size="36" value="http://bitbucket/liuc/capstone.f14.gitviewer/" /></div>
+      <div>Username: <input type="text" name="username" id="username" value="" /></div>
+      <div>Password: <input type="password" name="userpass" id="userpass" value="" /></div>
+      <div class="separator"></div>
+      <div class="separator"></div>
+      <p align="center">
+        <input type="button" onclick="GVapp.load_new_repo()" value="Confirm" />
+        <input type="button" onclick="GVapp.reset_repo()" value="Default" />
+        <input type="button" onclick="GVapp.show_view()" value="Cancel" />
+      </p>
+      <!-- p align="center">
+        <div class="button" onclick="GVapp.load_new_repo()">Confirm</div>
+        <div class="button" onclick="GVapp.reset_repo()">Default</div>
+        <div class="button" onclick="GVapp.show_view()">Cancel</div>
+      </p -->
+    </div>
+
+    <div id="Filter" style="display:none;">
+      <p align="center"><font size="10">Filter</font></p>
+      <p>
+        <div>Branch: <input type="text" name="commit_count" id="commit_count" value="master" /></div>
+        <div>Start Date: <input type="text" name="date_start" id="date_start" value="" /></div>
+        <div>End Date: <input type="text" name="date_end" id="date_end" value="" /></div>
+      </p>
+      <div class="separator"></div>
+      <p align="center">
+        <input type="button" onclick="GVapp.apply_filter()" value="Apply Filter" />
+        <input type="button" onclick="GVapp.remove_filter()" value="Remove Filter" />
+        <input type="button" onclick="GVapp.no_new_filter()" value="Cancel" />
+      </p>
+      <!-- p align="center">
+        <div class="button" onclick="GVapp.apply_filter()">Apply</div>
+        <div class="button" onclick="GVapp.no_new_filter()">Cancel</div>
+      </p -->
+    </div>
+
+    <div id="repoView" style="display:none;">
+      <div id="progress" style="display:none;">
+        <img src="img/mtd_loader_orange_256.gif" />
+      </div>
+      <!-- ******************** -->
+      <div id="mychart"></div>
+      <div class="separator"><p></p></div>
+      <p align="center">
+        <input type="button" onclick="GVapp.show_repository()" value="Repository" />
+        <input type="button" onclick="GVapp.show_preference()" value="Preference" />
+        <input type="button" onclick="GVapp.show_filter()" value="Filter" />
+        <input type="button" onclick="GVapp.show_about();" value="About" />
+      </p>
+      <!-- p align="center">
+        <div class="button" onclick="GVapp.show_repository()">Repository</div>
+        <div class="button" onclick="GVapp.show_preference()">Preference</div>
+        <div class="button" onclick="GVapp.show_filter()">Filter</div>
+        <div class="button" onclick="GVapp.show_about();">About</div>
+      </p -->
+      <!-- ******************** -->
+      <p>
+        <input type="button" value="test A" onclick="tA();" />
+        <input type="button" value="test B" onclick="tB();" />
+      </p>
+    </div>
+
+  </div>
+
+</center>
+
+<!--
+********************************************************************************
+App startup code
+-->
+  <script type="text/javascript">
+
+ $( document ).bind( "mobileinit", function() { 
+    $.support.cors = true;    
+    $.mobile.allowCrossDomainPages = true; 
+  });
+
+    GVapp.initialize();
+    GVapp.bind_event_handler();
+  </script>
+<!--
+********************************************************************************
+-->
+
+
+<!--
+jq.mobile template
+
+<div id="contactsPage" data-role="page">
+
+	<div data-role="header">
+		<h1>Show My Contacts</h1>
+	</div>"/header"
+
+	<div data-role="content">	
+		<div id="contactsList">
+		</div>
+	</div>"/content"
+</div>"/page"
+
+-->
+</body>
+</html>

@@ -1,0 +1,68 @@
+body{
+    background-color: #fff7d6 ;
+    margin: 0px;
+    padding: 2px;
+}
+
+.button{
+    background-color: yellow;
+    box-shadow: 0 0 5px #808000 ;
+    width: 120px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    float: left;
+}
+
+div.bar {
+    display: inline-block;
+    /* width: 20px; */
+    /* height: 75px; */
+    margin-right: 2px;
+    background-color: teal;
+}
+
+#mychart {
+    width: 100%;
+    /* height: 320px; */
+}
+
+
+.hbtn {
+    float: left;
+    margin-right: 5px!important;
+}
+
+.hmsg {
+  float: left;
+  margin: 10px;
+}
+
+
+#msgpanel2 {
+    width: 40%;
+    text-align: left;
+}
+
+div.separator {
+    display: block;
+    height: 30px;
+    width: 100%;
+}
+
+
+.node rect {
+  cursor: move;
+  fill-opacity: .9;
+  shape-rendering: crispEdges;
+}
+
+.link {
+  fill: none;
+  stroke: #000;
+  stroke-opacity: .2;
+}
+ 
+.link:hover {
+  stroke-opacity: .5;
+}
